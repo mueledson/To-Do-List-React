@@ -1,34 +1,53 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import Todo from './components/Todo'
+import TodoForm from './components/TodoForm'
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([
+    
+    {
+      id: 1,
+      text: "Criar funcionalidade TAL no Sistema",
+      category: "Trabalho",
+      isCompleted: false,
+    },
+    {
+      id: 2,
+      text: "Ir pra academia",
+      category: "Pessoal",
+      isCompleted: false,
+    },
+    {
+      id: 1,
+      text: "Estudar matemática",
+      category: "Estudos",
+      isCompleted: true,
+    },
+  ])
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+  const addTodo = (text, category) => {
+    const newTodos = [... todos, {
+      id: Math.floor(Math.random() * 1000),
+      text,
+      isCompleted: false,
+    }]
+
+    setTodos(newTodos)
+  }
+
+  return(
+    <div className="app">
+      <h1>Lista de Tarefas</h1>
+      <div className="todo-list">
+        {todos.map((todo) => (
+          <Todo todo={todo} key={todo.id}/>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <TodoForm addTodo={addTodo}/>
+    </div>
   )
 }
 
